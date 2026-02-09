@@ -3,241 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>macOS Productivity OS</title>
+    <title>Star Tasker Pro - Travaillez. Récompensez-vous.</title>
     <style>
         :root {
-            --mac-bg: rgba(245, 245, 247, 0.8);
-            --mac-border: rgba(255, 255, 255, 0.4);
-            --accent: #007AFF;
+            --bg-color: #000;
+            --text-color: #f5f5f7;
+            --accent-color: #007aff;
+            --gray-text: #86868b;
         }
 
-        body {
-            background: url('https://images.unsplash.com/photo-1516710104703-7145b4a600ee?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
-            background-size: cover;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-            margin: 0; padding: 15px; height: 100vh; display: flex; justify-content: center; align-items: center; box-sizing: border-box;
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* Barre de navigation style Apple */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 44px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav a {
+            color: var(--gray-text);
+            text-decoration: none;
+            font-size: 12px;
+            margin: 0 20px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: #fff; }
+
+        /* Section Hero */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 44px;
+        }
+
+        .hero h1 {
+            font-size: 80px;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            margin-bottom: 10px;
+            background: linear-gradient(180deg, #fff 0%, #86868b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 28px;
+            color: var(--gray-text);
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 980px;
+            font-size: 17px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cta-button:hover {
+            background-color: #0071e3;
+            transform: scale(1.05);
+        }
+
+        /* Section Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 100px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: #161617;
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--gray-text);
+            line-height: 1.5;
+        }
+
+        .icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* Mockup Preview */
+        .mockup {
+            width: 80%;
+            max-width: 900px;
+            height: 500px;
+            background: linear-gradient(135deg, #1e1e1e 0%, #000 100%);
+            border: 8px solid #333;
+            border-radius: 20px;
+            margin: 50px auto;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
             overflow: hidden;
         }
 
-        /* Notifications */
-        #notification-center { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
-        .mac-notify {
-            background: rgba(255,255,255,0.7); backdrop-filter: blur(20px); width: 280px; padding: 15px;
-            border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid white;
-            animation: slideIn 0.5s ease forwards;
+        .mockup::after {
+            content: "Interface Preview";
+            color: #444;
+            font-weight: bold;
+            font-size: 2rem;
         }
 
-        /* Container Principal */
-        .app-container {
-            width: 100%; max-width: 1200px; height: 90vh;
-            background: var(--mac-bg); backdrop-filter: blur(40px);
-            border-radius: 20px; border: 1px solid var(--mac-border);
-            display: flex; flex-direction: column; box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+        /* Responsivité */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 40px; }
+            .hero p { font-size: 20px; padding: 0 20px; }
+            .features { grid-template-columns: 1fr; }
         }
-
-        .title-bar { height: 50px; display: flex; align-items: center; padding: 0 15px; background: rgba(255,255,255,0.3); }
-        .dots { display: flex; gap: 8px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .red { background: #FF5F56; } .yellow { background: #FFBD2E; } .green { background: #27C93F; }
-
-        .xp-bar-container { flex: 1; margin: 0 20px; height: 8px; background: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden; position: relative; }
-        #xp-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.5s; }
-
-        .star-wallet { background: white; padding: 6px 15px; border-radius: 20px; font-weight: 800; color: #f39c12; }
-
-        /* Layout */
-        .main-layout { display: flex; flex: 1; overflow: hidden; }
-
-        /* Widgets Sidebar (Gauche) */
-        .widgets-bar { width: 220px; background: rgba(255,255,255,0.2); padding: 15px; border-right: 1px solid rgba(0,0,0,0.05); }
-        .widget { background: rgba(255,255,255,0.5); padding: 15px; border-radius: 18px; margin-bottom: 15px; text-align: center; }
-
-        /* Main Zone */
-        .content-zone { flex: 1; display: flex; overflow: hidden; }
-        .sidebar-shop { width: 300px; padding: 20px; overflow-y: auto; border-right: 1px solid rgba(0,0,0,0.05); }
-        .task-zone { flex: 1; padding: 30px; overflow-y: auto; }
-
-        /* Items Styles */
-        .card { background: white; padding: 15px; border-radius: 15px; margin-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        button { background: var(--accent); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; width: 100%; }
-        input, select { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box;}
-
-        .timer-overlay { position: fixed; bottom: 20px; left: 20px; background: #111; color: white; padding: 15px; border-radius: 15px; font-size: 14px; z-index: 1000; }
-
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        
-        @media (max-width: 900px) { .widgets-bar { display: none; } .main-layout { flex-direction: column; } .sidebar-shop { width: 100%; height: 200px; } }
     </style>
 </head>
 <body>
 
-<div id="notification-center"></div>
-<div id="timer-display" class="timer-overlay" style="display:none"></div>
+    <nav>
+        <a href="#">Star Tasker</a>
+        <a href="#features">Fonctionnalités</a>
+        <a href="#boutique">Boutique</a>
+        <a href="game.html" style="color: var(--accent-color)">Lancer l'App</a>
+    </nav>
 
-<div class="app-container">
-    <div class="title-bar">
-        <div class="dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
-        <div class="xp-bar-container"><div id="xp-fill"></div></div>
-        <div class="star-wallet">⭐ <span id="starsDisplay">0</span></div>
-    </div>
-
-    <div class="main-layout">
-        <div class="widgets-bar">
-            <div class="widget">
-                <small>STATUS</small><br><b id="rankName">Stagiaire</b>
-            </div>
-            <div class="widget">
-                <small>MÉTÉO</small><br><b id="weather">Nuageux</b>
-            </div>
-            <div class="widget">
-                <small>LVL</small><br><b id="lvlDisplay">1</b>
-            </div>
-        </div>
-
-        <div class="content-zone">
-            <div class="sidebar-shop">
-                <h3 style="margin-top:0">Boutique</h3>
-                <div class="card">
-                    <b>🎮 Gaming (1h)</b><small>150 ⭐</small>
-                    <button onclick="buy(150, 'Gaming', 60)">Acheter</button>
-                </div>
-                <div class="card">
-                    <b>📖 Lecture (30m)</b><small>50 ⭐</small>
-                    <button onclick="buy(50, 'Lecture', 30)">Acheter</button>
-                </div>
-                <div class="card" style="background:#fff4e6">
-                    <b>🧘 Mode Focus (25m)</b><small>Gratuit (+X2 XP)</small>
-                    <button onclick="startFocus()">Lancer</button>
-                </div>
-                <div class="card">
-                    <b>🎁 Boîte Mystère</b><small>100 ⭐</small>
-                    <button onclick="buyMystery()">Ouvrir</button>
-                </div>
-            </div>
-
-            <div class="task-zone">
-                <div class="card">
-                    <input type="text" id="taskName" placeholder="Nouvelle mission...">
-                    <select id="taskValue">
-                        <option value="20">Facile (20 ⭐)</option>
-                        <option value="50">Moyen (50 ⭐)</option>
-                        <option value="150">Difficile (150 ⭐)</option>
-                    </select>
-                    <button onclick="addTask()">AJOUTER TÂCHE</button>
-                </div>
-                <div id="taskList"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    let stars = parseInt(localStorage.getItem('stars')) || 0;
-    let xp = parseInt(localStorage.getItem('xp')) || 0;
-    let lvl = parseInt(localStorage.getItem('lvl')) || 1;
-    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-
-    const ranks = ["Stagiaire", "Apprenti", "Expert", "Maître du Temps", "CEO de ma Vie"];
-
-    function notify(title, msg) {
-        const center = document.getElementById('notification-center');
-        const div = document.createElement('div');
-        div.className = 'mac-notify';
-        div.innerHTML = `<b>${title}</b><br><small>${msg}</small>`;
-        center.appendChild(div);
-        setTimeout(() => div.remove(), 4000);
-    }
-
-    function updateUI() {
-        document.getElementById('starsDisplay').innerText = stars;
-        document.getElementById('lvlDisplay').innerText = lvl;
-        document.getElementById('rankName').innerText = ranks[Math.min(lvl-1, 4)];
+    <section class="hero">
+        <h1>Star Tasker Pro.</h1>
+        <p>Transformez chaque tâche en une récompense. Gérez votre vie comme un Pro.</p>
+        <a href="game.html" class="cta-button">Commencer l'expérience</a>
         
-        // XP Bar
-        let progress = (xp % 100);
-        document.getElementById('xp-fill').style.width = progress + "%";
-        
-        // Météo
-        document.getElementById('weather').innerText = tasks.length > 3 ? "Orageux" : "Ensoleillé";
+        <div class="mockup"></div>
+    </section>
 
-        localStorage.setItem('stars', stars);
-        localStorage.setItem('xp', xp);
-        localStorage.setItem('lvl', lvl);
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-        renderTasks();
-    }
+    <section class="features" id="features">
+        <div class="feature-card">
+            <span class="icon">🎯</span>
+            <h3>Objectifs précis</h3>
+            <p>Attribuez des étoiles à vos missions selon leur difficulté. Le mérite n'a jamais été aussi clair.</p>
+        </div>
+        <div class="feature-card">
+            <span class="icon">✨</span>
+            <h3>Boutique de Vie</h3>
+            <p>Convertissez vos efforts en temps de jeu, lecture ou pause. Un équilibre parfait entre travail et loisirs.</p>
+        </div>
+        <div class="feature-card">
+            <span class="icon">🚀</span>
+            <h3>Progression OS</h3>
+            <p>Gagnez de l'XP, montez en grade et débloquez des badges exclusifs. De stagiaire à CEO.</p>
+        </div>
+    </section>
 
-    function addTask() {
-        const name = document.getElementById('taskName').value;
-        const val = document.getElementById('taskValue').value;
-        if (!name) return;
-        tasks.push({ id: Date.now(), name, reward: parseInt(val) });
-        document.getElementById('taskName').value = '';
-        notify("Tâche ajoutée", "Bon courage pour : " + name);
-        updateUI();
-    }
-
-    function renderTasks() {
-        const list = document.getElementById('taskList');
-        list.innerHTML = '';
-        tasks.forEach(t => {
-            const div = document.createElement('div');
-            div.className = 'card';
-            div.style.display = 'flex'; div.style.justifyContent = 'space-between'; div.style.alignItems='center';
-            div.innerHTML = `<span>${t.name} (⭐${t.reward})</span>
-            <button onclick="complete(${t.id})" style="width:80px; background:#28cd41">OK</button>`;
-            list.appendChild(div);
-        });
-    }
-
-    function complete(id) {
-        const idx = tasks.findIndex(t => t.id === id);
-        stars += tasks[idx].reward;
-        xp += 25;
-        if (xp >= lvl * 100) { lvl++; notify("LEVEL UP !", "Tu es maintenant niveau " + lvl); }
-        tasks.splice(idx, 1);
-        notify("Mission accomplie", "+"+stars+" ⭐ gagnées");
-        updateUI();
-    }
-
-    function buy(cost, label, mins) {
-        if (stars >= cost) {
-            stars -= cost;
-            startTimer(label, mins);
-            notify("Achat réussi", `Session ${label} activée.`);
-            updateUI();
-        } else alert("Pas assez d'étoiles !");
-    }
-
-    function startTimer(label, mins) {
-        const display = document.getElementById('timer-display');
-        display.style.display = 'block';
-        let sec = mins * 60;
-        const interval = setInterval(() => {
-            let m = Math.floor(sec/60); let s = sec%60;
-            display.innerText = `⏳ ${label} : ${m}:${s<10?'0':''}${s}`;
-            if (sec <= 0) { clearInterval(interval); display.style.display='none'; notify("Temps fini", label + " est terminé."); }
-            sec--;
-        }, 1000);
-    }
-
-    function startFocus() {
-        notify("Mode Focus", "Concentration lancée pour 25 minutes !");
-        startTimer("Concentration", 25);
-    }
-
-    function buyMystery() {
-        if(stars >= 100) {
-            stars -= 100;
-            const win = Math.floor(Math.random() * 300);
-            stars += win;
-            notify("Boîte Mystère", `Tu as trouvé ${win} étoiles !`);
-            updateUI();
-        }
-    }
-
-    updateUI();
-</script>
+    <footer style="padding: 50px; text-align: center; color: var(--gray-text); font-size: 12px;">
+        Copyright © 2026 Star Tasker Inc. Tous droits réservés. Design inspiré par Cupertino.
+    </footer>
 
 </body>
 </html>
