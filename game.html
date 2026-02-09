@@ -18,7 +18,7 @@
         body {
             background: url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
             background-size: cover;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
             margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center;
             overflow: hidden;
         }
@@ -54,25 +54,18 @@
         .star-wallet { 
             background: rgba(255,255,255,0.9); padding: 6px 15px; border-radius: 12px; 
             font-weight: 700; color: #d35400; display: flex; align-items: center; gap: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
         /* Layout */
         .main-layout { display: flex; flex: 1; overflow: hidden; }
 
         /* Sidebar */
-        .sidebar { 
-            width: 220px; padding: 20px; 
-            background: rgba(255,255,255,0.1); border-right: 1px solid rgba(0,0,0,0.05);
-        }
-
+        .sidebar { width: 220px; padding: 20px; background: rgba(255,255,255,0.1); border-right: 1px solid rgba(0,0,0,0.05); }
         .widget { 
             background: var(--surface); padding: 15px; border-radius: 15px; 
-            margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.3);
-            text-align: center;
+            margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.3); text-align: center;
         }
         .widget small { display: block; font-size: 9px; font-weight: 800; color: #777; margin-bottom: 4px; }
-        .widget span { font-size: 15px; font-weight: 600; color: #222; }
 
         /* Colonnes */
         .shop-column { width: 300px; padding: 20px; overflow-y: auto; background: rgba(255,255,255,0.05); }
@@ -80,39 +73,28 @@
 
         .card { 
             background: white; padding: 16px; border-radius: 16px; margin-bottom: 12px;
-            border: 1px solid rgba(0,0,0,0.04); box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-            transition: all 0.2s ease;
+            border: 1px solid rgba(0,0,0,0.04); transition: all 0.2s ease;
         }
         .card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
-
-        h3 { margin: 0 0 15px 0; font-size: 17px; font-weight: 700; color: #1d1d1f; display: flex; align-items: center; gap: 8px; }
 
         /* Formulaire */
         .input-group { background: white; padding: 15px; border-radius: 16px; margin-bottom: 20px; }
         input, select { 
             width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; 
-            border: 1px solid #ddd; outline: none; box-sizing: border-box; font-size: 14px;
+            border: 1px solid #ddd; outline: none; box-sizing: border-box;
         }
-        input:focus { border-color: var(--accent); }
 
         .btn { 
             border: none; padding: 10px 15px; border-radius: 10px; cursor: pointer; 
-            font-weight: 600; font-size: 13px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 5px;
+            font-weight: 600; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 5px;
         }
         .btn-primary { background: var(--accent); color: white; width: 100%; }
         .btn-success { background: var(--success); color: white; }
         .btn-ghost { background: transparent; color: #888; }
         .btn-ghost:hover { color: var(--danger); background: #fff1f0; }
 
-        /* Tâches */
-        .task-item { display: flex; justify-content: space-between; align-items: center; animation: slideIn 0.3s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } }
-
-        .badge { font-size: 11px; padding: 4px 8px; border-radius: 6px; font-weight: 700; }
-        .badge-star { background: #FFF9E6; color: #D4AF37; }
-
         /* Toasts */
-        #notify-stack { position: fixed; top: 20px; right: 20px; z-index: 1000; }
+        #notify-stack { position: fixed; top: 20px; right: 20px; z-index: 2000; }
         .toast {
             background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
             padding: 12px 20px; border-radius: 12px; margin-bottom: 10px;
@@ -121,7 +103,6 @@
         }
         @keyframes toastIn { from { transform: translateX(100%); opacity: 0; } }
 
-        /* Timer Float */
         .timer-float {
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
             background: #1d1d1f; color: white; padding: 12px 24px;
@@ -129,11 +110,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1000;
         }
 
-        @media (max-width: 768px) {
-            .sidebar { display: none; }
-            .main-layout { flex-direction: column; }
-            .shop-column { width: auto; height: 30%; }
-        }
+        .badge { font-size: 11px; padding: 4px 8px; border-radius: 6px; font-weight: 700; background: #FFF9E6; color: #D4AF37; }
     </style>
 </head>
 <body>
@@ -165,87 +142,77 @@
                 <span id="rankName">Stagiaire</span>
             </div>
             <div class="widget">
-                <small>FOCUS DU JOUR</small>
-                <span id="daily-focus">0h 00m</span>
-            </div>
-            <div class="widget">
-                <small>BONUS XP</small>
-                <span style="color:var(--success)">+15% 🔥</span>
+                <small>PROCHAIN NIVEAU</small>
+                <span id="next-lvl-xp">150 XP</span>
             </div>
         </aside>
 
         <section class="shop-column">
             <h3><i data-lucide="shopping-bag" size="18"></i> Boutique</h3>
-            
             <div class="card">
-                <div style="font-weight:700; margin-bottom:5px;">🎮 Session Gaming</div>
-                <div style="font-size:11px; color:#888; margin-bottom:12px;">Détente totale (1h)</div>
+                <div style="font-weight:700;">🎮 Session Gaming</div>
+                <div style="font-size:11px; color:#888; margin-bottom:12px;">Pause détente (60m)</div>
                 <button class="btn btn-primary" onclick="buy(150, 'Gaming', 60)">150 ⭐</button>
             </div>
-
             <div class="card">
-                <div style="font-weight:700; margin-bottom:5px;">📖 Lecture / Apprentissage</div>
-                <div style="font-size:11px; color:#888; margin-bottom:12px;">S'enrichir l'esprit (45m)</div>
-                <button class="btn btn-primary" onclick="buy(60, 'Lecture', 45)">60 ⭐</button>
+                <div style="font-weight:700;">📖 Lecture</div>
+                <div style="font-size:11px; color:#888; margin-bottom:12px;">Apprentissage (30m)</div>
+                <button class="btn btn-primary" onclick="buy(50, 'Lecture', 30)">50 ⭐</button>
             </div>
-
             <div class="card" style="border: 1px solid var(--accent);">
-                <div style="font-weight:700; margin-bottom:5px; color:var(--accent);">⚡ Mode Deep Work</div>
-                <div style="font-size:11px; color:#888; margin-bottom:12px;">Concentration max (25m)</div>
-                <button class="btn btn-primary" style="background: #000" onclick="startFocus()">Lancer</button>
+                <div style="font-weight:700; color:var(--accent);">⚡ Deep Work</div>
+                <div style="font-size:11px; color:#888; margin-bottom:12px;">Focus intense (25m)</div>
+                <button class="btn btn-primary" style="background:#000" onclick="startFocus()">Lancer</button>
             </div>
         </section>
 
         <main class="task-column">
-            <h3><i data-lucide="check-circle" size="18"></i> Missions actives</h3>
-            
+            <h3><i data-lucide="check-circle" size="18"></i> Missions</h3>
             <div class="input-group">
-                <input type="text" id="taskName" placeholder="Quelle est la priorité ?">
+                <input type="text" id="taskName" placeholder="Nouvelle mission...">
                 <div style="display:flex; gap:10px;">
                     <select id="taskValue">
                         <option value="20">Facile (20 ⭐)</option>
                         <option value="50" selected>Moyen (50 ⭐)</option>
                         <option value="150">Difficile (150 ⭐)</option>
                     </select>
-                    <button class="btn btn-primary" onclick="addTask()" style="width: 120px;">
-                        <i data-lucide="plus" size="16"></i>
-                    </button>
+                    <button class="btn btn-primary" onclick="addTask()" style="width:60px;"><i data-lucide="plus"></i></button>
                 </div>
             </div>
-
             <div id="taskList"></div>
         </main>
     </div>
 </div>
 
 <script>
-    // État de l'application
+    // --- ÉTAT ---
     let stars = parseInt(localStorage.getItem('stars')) || 0;
     let xp = parseInt(localStorage.getItem('xp')) || 0;
     let lvl = parseInt(localStorage.getItem('lvl')) || 1;
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    
     const ranks = ["Stagiaire", "Apprenti", "Expert", "Maître", "Légende"];
 
-    // Notification macOS Style
+    // --- ÉQUILIBRAGE ---
+    const getNextLevelXP = () => lvl * 150;
+
+    // --- NOTIFICATIONS ---
     function sendNotify(title, msg) {
         const stack = document.getElementById('notify-stack');
         const toast = document.createElement('div');
         toast.className = 'toast';
-        toast.innerHTML = `<b style="display:block; font-size:13px;">${title}</b><span style="font-size:12px; color:#666;">${msg}</span>`;
+        toast.innerHTML = `<b>${title}</b><br><small>${msg}</small>`;
         stack.appendChild(toast);
-        setTimeout(() => {
-            toast.style.opacity = '0';
-            setTimeout(() => toast.remove(), 400);
-        }, 3500);
+        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 3500);
     }
 
+    // --- UI ---
     function updateUI() {
         document.getElementById('starsDisplay').innerText = stars;
         document.getElementById('lvl-badge').innerText = lvl;
         document.getElementById('rankName').innerText = ranks[Math.min(lvl-1, 4)];
+        document.getElementById('next-lvl-xp').innerText = getNextLevelXP() + " XP";
         
-        let progress = xp % 100;
+        let progress = (xp / getNextLevelXP()) * 100;
         document.getElementById('xp-fill').style.width = `${progress}%`;
 
         localStorage.setItem('stars', stars);
@@ -254,105 +221,93 @@
         localStorage.setItem('tasks', JSON.stringify(tasks));
         
         renderTasks();
-        lucide.createIcons(); // Re-render des icônes
+        lucide.createIcons();
     }
 
     function addTask() {
         const input = document.getElementById('taskName');
         const val = document.getElementById('taskValue');
         if (!input.value.trim()) return;
-
-        tasks.push({ 
-            id: Date.now(), 
-            name: input.value, 
-            reward: parseInt(val.value) 
-        });
-        
+        tasks.push({ id: Date.now(), name: input.value, reward: parseInt(val.value) });
         input.value = '';
-        sendNotify("Mission ajoutée", "Bon courage pour cette tâche !");
-        updateUI();
-    }
-
-    function deleteTask(id) {
-        tasks = tasks.filter(t => t.id !== id);
         updateUI();
     }
 
     function completeTask(id) {
         const task = tasks.find(t => t.id === id);
         stars += task.reward;
-        xp += 25;
+        xp += Math.floor(task.reward / 2);
 
-        if (xp >= lvl * 100) {
+        if (xp >= getNextLevelXP()) {
+            xp -= getNextLevelXP();
             lvl++;
-            sendNotify("LEVEL UP ! 🚀", "Félicitations, vous passez niveau " + lvl);
+            sendNotify("LEVEL UP ! 🚀", `Vous êtes niveau ${lvl}`);
         }
-
         tasks = tasks.filter(t => t.id !== id);
-        sendNotify("Terminé !", `+${task.reward} étoiles récoltées.`);
+        sendNotify("Mission accomplie", `+${task.reward} ⭐`);
         updateUI();
     }
 
+    function deleteTask(id) { tasks = tasks.filter(t => t.id !== id); updateUI(); }
+
     function renderTasks() {
         const list = document.getElementById('taskList');
-        list.innerHTML = tasks.length === 0 ? 
-            '<p style="text-align:center; color:#888; margin-top:40px; font-size:14px;">Aucune mission en cours. Prenez du repos !</p>' : '';
-        
+        list.innerHTML = tasks.length === 0 ? '<p style="text-align:center; color:#888;">Repos mérité !</p>' : '';
         tasks.forEach(t => {
             const div = document.createElement('div');
             div.className = 'card task-item';
-            div.innerHTML = `
-                <div>
-                    <div style="font-weight:600; font-size:14px;">${t.name}</div>
-                    <span class="badge badge-star">⭐ ${t.reward}</span>
-                </div>
-                <div style="display:flex; gap:8px;">
+            div.style.display = 'flex'; div.style.justifyContent = 'space-between'; div.style.alignItems = 'center';
+            div.innerHTML = `<div><b>${t.name}</b><br><span class="badge">⭐ ${t.reward}</span></div>
+                <div style="display:flex; gap:5px;">
                     <button class="btn btn-ghost" onclick="deleteTask(${t.id})"><i data-lucide="trash-2" size="16"></i></button>
-                    <button class="btn btn-success" onclick="completeTask(${t.id})">Valider</button>
-                </div>
-            `;
+                    <button class="btn btn-success" onclick="completeTask(${t.id})">OK</button>
+                </div>`;
             list.appendChild(div);
         });
     }
 
-    function buy(cost, label, mins) {
-        if (stars >= cost) {
-            stars -= cost;
-            startTimer(label, mins);
-            updateUI();
-        } else {
-            sendNotify("Étoiles insuffisantes", "Continuez vos missions pour débloquer ceci.");
-        }
+    // --- TIMER PERSISTANT ---
+    let activeInterval;
+    function startTimer(label, mins) {
+        const endTime = Date.now() + (mins * 60 * 1000);
+        localStorage.setItem('timerEnd', endTime);
+        localStorage.setItem('timerLabel', label);
+        runTimerLogic();
     }
 
-    function startTimer(label, mins) {
+    function runTimerLogic() {
         const ui = document.getElementById('timer-ui');
+        const endTime = localStorage.getItem('timerEnd');
+        const label = localStorage.getItem('timerLabel');
+        if (!endTime) return;
+
+        clearInterval(activeInterval);
         ui.style.display = 'flex';
-        let sec = mins * 60;
-        
-        const interval = setInterval(() => {
-            let m = Math.floor(sec/60);
-            let s = sec%60;
-            ui.innerHTML = `<i data-lucide="clock" size="18"></i> <span><b>${label}</b> — ${m}:${s<10?'0':''}${s}</span>`;
-            lucide.createIcons();
-            
-            if (sec <= 0) { 
-                clearInterval(interval); 
-                ui.style.display = 'none'; 
-                sendNotify("Temps écoulé", "La session est terminée !");
+        activeInterval = setInterval(() => {
+            const diff = endTime - Date.now();
+            if (diff <= 0) {
+                clearInterval(activeInterval);
+                ui.style.display = 'none';
+                localStorage.removeItem('timerEnd');
+                sendNotify("Terminé !", label + " est fini.");
+                return;
             }
-            sec--;
+            const m = Math.floor(diff / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            ui.innerHTML = `<i data-lucide="clock" size="18"></i> <span><b>${label}</b> ${m}:${s<10?'0':''}${s}</span>`;
+            lucide.createIcons();
         }, 1000);
     }
 
-    function startFocus() {
-        sendNotify("Focus activé", "C'est l'heure de briller.");
-        startTimer("Concentration", 25);
+    function buy(cost, label, mins) {
+        if (stars >= cost) { stars -= cost; startTimer(label, mins); updateUI(); }
+        else { sendNotify("Erreur", "Pas assez d'étoiles !"); }
     }
 
-    // Init
-    updateUI();
-</script>
+    function startFocus() { startTimer("Focus", 25); sendNotify("Focus", "C'est parti !"); }
 
+    updateUI();
+    runTimerLogic();
+</script>
 </body>
 </html>
