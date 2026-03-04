@@ -7,12 +7,12 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --mac-bg: rgba(255, 255, 255, 0.82);
-            --mac-border: rgba(255, 255, 255, 0.6);
+            --mac-bg: rgba(255, 255, 255, 0.7);
+            --mac-border: rgba(255, 255, 255, 0.4);
             --accent: #007AFF;
             --success: #28cd41;
             --danger: #FF3B30;
-            --surface: rgba(255, 255, 255, 0.5);
+            --surface: rgba(255, 255, 255, 0.3);
             --text-main: #1d1d1f;
         }
 
@@ -24,12 +24,13 @@
             overflow: hidden; color: var(--text-main);
         }
 
+        /* Container principal avec effet de flou dynamique */
         .app-container {
-            width: 95%; max-width: 1100px; height: 85vh;
+            width: 95%; max-width: 1200px; height: 85vh;
             background: var(--mac-bg);
             backdrop-filter: blur(40px) saturate(180%);
             -webkit-backdrop-filter: blur(40px) saturate(180%);
-            border-radius: 22px; border: 1px solid var(--mac-border);
+            border-radius: 24px; border: 1px solid var(--mac-border);
             display: flex; flex-direction: column;
             box-shadow: 0 50px 100px rgba(0,0,0,0.15);
             animation: appAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
@@ -37,88 +38,96 @@
 
         @keyframes appAppear { from { opacity: 0; transform: scale(0.95) translateY(20px); } }
 
-        /* HEADER */
+        /* Barre de titre élégante */
         .title-bar {
-            height: 60px; display: flex; align-items: center; padding: 0 25px;
+            height: 65px; display: flex; align-items: center; padding: 0 25px;
             background: rgba(255,255,255,0.2); border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
         .dots { display: flex; gap: 8px; width: 80px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; border: 0.5px solid rgba(0,0,0,0.1); }
+        .dot { width: 13px; height: 13px; border-radius: 50%; transition: 0.2s; cursor: pointer; }
+        .dot:hover { filter: brightness(0.8); }
         .red { background: #FF5F56; } .yellow { background: #FFBD2E; } .green { background: #27C93F; }
 
         .xp-container { flex: 1; margin: 0 40px; }
-        .xp-label { font-size: 11px; font-weight: 700; color: #666; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .xp-bar { height: 10px; background: rgba(0,0,0,0.08); border-radius: 10px; overflow: hidden; position: relative; }
-        #xp-fill { height: 100%; background: linear-gradient(90deg, #007AFF, #5AC8FA); width: 0%; transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .xp-label { font-size: 11px; font-weight: 700; color: #666; margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .xp-bar { height: 10px; background: rgba(0,0,0,0.08); border-radius: 20px; overflow: hidden; }
+        #xp-fill { height: 100%; background: linear-gradient(90deg, #007AFF, #5AC8FA); width: 0%; transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
         .star-wallet { 
-            background: white; padding: 8px 16px; border-radius: 50px; 
+            background: rgba(255,255,255,0.8); padding: 8px 16px; border-radius: 14px; 
             font-weight: 800; color: #e67e22; display: flex; align-items: center; gap: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        /* LAYOUT */
         .main-layout { display: flex; flex: 1; overflow: hidden; }
 
-        .sidebar { width: 220px; padding: 25px; background: rgba(255,255,255,0.2); border-right: 1px solid rgba(0,0,0,0.05); }
+        /* Sidebar & Widgets */
+        .sidebar { width: 240px; padding: 25px; background: rgba(255,255,255,0.15); border-right: 1px solid rgba(0,0,0,0.05); }
         .widget { 
-            background: var(--surface); padding: 18px; border-radius: 18px; 
-            margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.4); text-align: left;
+            background: var(--surface); padding: 18px; border-radius: 20px; 
+            margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.4); text-align: center;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .widget small { display: block; font-size: 10px; font-weight: 800; color: #888; margin-bottom: 6px; letter-spacing: 1px; }
-        .widget span { font-size: 1.1rem; font-weight: 700; }
+        .widget:hover { transform: scale(1.02); background: rgba(255,255,255,0.5); }
+        .widget small { display: block; font-size: 10px; font-weight: 800; color: #888; margin-bottom: 6px; letter-spacing: 0.5px; }
+        .widget span { font-size: 1.1rem; font-weight: 700; color: #333; }
 
-        .shop-column { width: 320px; padding: 25px; overflow-y: auto; background: rgba(255,255,255,0.1); border-right: 1px solid rgba(0,0,0,0.05); }
-        .task-column { flex: 1; padding: 25px; overflow-y: auto; background: rgba(255,255,255,0.3); }
+        /* Colonnes Scrollables */
+        .shop-column { width: 320px; padding: 25px; overflow-y: auto; border-right: 1px solid rgba(0,0,0,0.05); }
+        .task-column { flex: 1; padding: 25px; overflow-y: auto; background: rgba(255,255,255,0.1); }
 
-        /* COMPONENTS */
+        h3 { font-size: 1.2rem; margin-top: 0; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+
+        /* Cards Style Apple */
         .card { 
-            background: white; padding: 18px; border-radius: 18px; margin-bottom: 15px;
-            border: 1px solid rgba(0,0,0,0.03); transition: all 0.3s ease;
-            position: relative;
+            background: rgba(255, 255, 255, 0.7); padding: 20px; border-radius: 18px; margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.5); transition: all 0.3s ease;
         }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 25px rgba(0,0,0,0.08); }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 25px rgba(0,0,0,0.08); background: #ffffff; }
 
-        .input-group { background: white; padding: 20px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .input-group { background: white; padding: 20px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         input, select { 
-            width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; 
-            border: 1px solid #eee; outline: none; font-size: 14px; transition: border 0.2s;
+            width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 12px; 
+            border: 1px solid #eee; outline: none; transition: 0.2s; font-size: 14px;
         }
-        input:focus { border-color: var(--accent); }
+        input:focus { border-color: var(--accent); background: #f9f9f9; }
 
         .btn { 
             border: none; padding: 12px 18px; border-radius: 12px; cursor: pointer; 
-            font-weight: 600; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+            font-weight: 700; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .btn-primary { background: var(--accent); color: white; }
-        .btn-primary:hover { background: #0062CC; transform: scale(1.02); }
-        .btn-success { background: var(--success); color: white; }
-        .btn-ghost { background: #f5f5f7; color: #666; }
-        .btn-ghost:hover { color: var(--danger); background: #feebeb; }
+        .btn-primary { background: var(--accent); color: white; width: 100%; }
+        .btn-primary:hover { background: #0062cc; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3); }
+        .btn-success { background: var(--success); color: white; padding: 8px 15px; }
+        .btn-ghost { background: transparent; color: #999; }
+        .btn-ghost:hover { color: var(--danger); background: #fff1f0; }
 
-        .badge { font-size: 11px; padding: 5px 10px; border-radius: 8px; font-weight: 700; background: #FFF9E6; color: #D4AF37; }
-
-        /* NOTIFICATIONS & TIMER */
-        #notify-stack { position: fixed; top: 30px; right: 30px; z-index: 2000; width: 300px; }
+        /* Toasts style iOS */
+        #notify-stack { position: fixed; top: 30px; right: 30px; z-index: 2000; }
         .toast {
-            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
-            padding: 15px 20px; border-radius: 16px; margin-bottom: 12px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.12); border-left: 5px solid var(--accent);
+            background: rgba(255,255,255,0.8); backdrop-filter: blur(15px);
+            padding: 15px 25px; border-radius: 18px; margin-bottom: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); border: 1px solid white;
             animation: toastIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        @keyframes toastIn { from { transform: translateX(110%); } }
+        @keyframes toastIn { from { transform: translateX(120%); opacity: 0; } }
 
+        /* Floating Timer Animé */
         .timer-float {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: #1d1d1f; color: white; padding: 14px 28px;
-            border-radius: 50px; display: flex; align-items: center; gap: 20px;
+            background: rgba(29, 29, 31, 0.9); backdrop-filter: blur(10px); color: white; 
+            padding: 14px 28px; border-radius: 50px; display: flex; align-items: center; gap: 15px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.4); z-index: 1000;
+            animation: timerPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        
-        .timer-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--accent); transition: width 1s linear; }
+        @keyframes timerPop { from { transform: translateX(-50%) translateY(100px); } }
 
+        .badge { font-size: 11px; padding: 5px 10px; border-radius: 8px; font-weight: 800; background: #FFF9E6; color: #D4AF37; }
+        
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
     </style>
 </head>
@@ -130,16 +139,19 @@
 <div class="app-container">
     <div class="title-bar">
         <div class="dots">
-            <div class="dot red" onclick="if(confirm('Reset ?')) resetAll()"></div>
+            <div class="dot red"></div>
             <div class="dot yellow"></div>
             <div class="dot green"></div>
         </div>
         <div class="xp-container">
-            <div class="xp-label">Niveau <span id="lvl-badge">1</span> — <span id="rankName">Stagiaire</span></div>
+            <div class="xp-label">
+                <span>NIVEAU <span id="lvl-badge">1</span></span>
+                <span id="xp-text">0 / 150 XP</span>
+            </div>
             <div class="xp-bar"><div id="xp-fill"></div></div>
         </div>
         <div class="star-wallet">
-            <i data-lucide="sparkles" size="18" fill="#f39c12"></i>
+            <i data-lucide="sparkles" size="18"></i>
             <span id="starsDisplay">0</span>
         </div>
     </div>
@@ -147,54 +159,63 @@
     <div class="main-layout">
         <aside class="sidebar">
             <div class="widget">
-                <small>OBJECTIF DU JOUR</small>
-                <span id="daily-status">0 / 3 Missions</span>
+                <small>RANG ACTUEL</small>
+                <span id="rankName">Stagiaire</span>
             </div>
             <div class="widget">
-                <small>XP RESTANT</small>
-                <span id="next-lvl-xp">150 XP</span>
+                <small>OBJECTIF ÉTOILES</small>
+                <span id="star-goal">Matinée productive</span>
             </div>
-            <div class="card" style="background: var(--accent); color: white; cursor: pointer;" onclick="startFocus()">
-                <div style="font-weight:800; display:flex; align-items:center; gap:8px;">
-                    <i data-lucide="zap" size="16"></i> DEEP WORK
-                </div>
-                <div style="font-size:10px; opacity:0.8; margin-top:5px;">Lancer 25min de focus</div>
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-ghost" onclick="resetData()" style="font-size: 10px; opacity: 0.5;">RÉINITIALISER</button>
             </div>
         </aside>
 
         <section class="shop-column">
-            <h3 style="margin-top:0;"><i data-lucide="shopping-cart" size="18"></i> Récompenses</h3>
+            <h3><i data-lucide="shopping-cart" size="20" color="#007AFF"></i> Boutique</h3>
             
             <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                    <div>
+                        <div style="font-weight:700;">☕ Café / Snack</div>
+                        <div style="font-size:11px; color:#888;">Pause courte (10m)</div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="buy(20, 'Pause Snack', 10)">20 ⭐</button>
+            </div>
+
+            <div class="card">
+                <div style="font-weight:700;">🎧 Playlist Favorie</div>
+                <div style="font-size:11px; color:#888; margin-bottom:12px;">Détente musicale (20m)</div>
+                <button class="btn btn-primary" onclick="buy(40, 'Musique', 20)">40 ⭐</button>
+            </div>
+
+            <div class="card">
                 <div style="font-weight:700;">🎮 Session Gaming</div>
-                <div style="font-size:11px; color:#888; margin-bottom:12px;">Une heure de plaisir (60m)</div>
-                <button class="btn btn-primary" style="width:100%" onclick="buy(150, 'Gaming', 60)">150 ⭐</button>
+                <div style="font-size:11px; color:#888; margin-bottom:12px;">Récompense Ultime (45m)</div>
+                <button class="btn btn-primary" onclick="buy(150, 'Gaming', 45)">150 ⭐</button>
             </div>
 
-            <div class="card">
-                <div style="font-weight:700;">☕ Pause Snack</div>
-                <div style="font-size:11px; color:#888; margin-bottom:12px;">Énergie immédiate (15m)</div>
-                <button class="btn btn-primary" style="width:100%" onclick="buy(40, 'Pause Snack', 15)">40 ⭐</button>
-            </div>
-
-            <div class="card">
-                <div style="font-weight:700;">📖 Lecture Libre</div>
-                <div style="font-size:11px; color:#888; margin-bottom:12px;">Détente intellectuelle (20m)</div>
-                <button class="btn btn-primary" style="width:100%" onclick="buy(30, 'Lecture', 20)">30 ⭐</button>
+            <div class="card" style="border: 2px solid var(--accent); background: rgba(0, 122, 255, 0.05);">
+                <div style="font-weight:800; color:var(--accent); display: flex; align-items: center; gap: 5px;">
+                    <i data-lucide="zap" size="14"></i> DEEP WORK
+                </div>
+                <div style="font-size:11px; color:#555; margin-bottom:12px;">Focus sans interruption (25m)</div>
+                <button class="btn btn-primary" style="background:#1d1d1f" onclick="startFocus()">Lancer le Focus</button>
             </div>
         </section>
 
         <main class="task-column">
-            <h3 style="margin-top:0;"><i data-lucide="list-todo" size="18"></i> Missions</h3>
+            <h3><i data-lucide="target" size="20" color="#28cd41"></i> Missions</h3>
             <div class="input-group">
                 <input type="text" id="taskName" placeholder="Quelle est la prochaine étape ?">
-                <div style="display:flex; gap:10px;">
+                <div style="display:flex; gap:12px;">
                     <select id="taskValue">
-                        <option value="20">Facile (20 ⭐)</option>
-                        <option value="50" selected>Moyen (50 ⭐)</option>
-                        <option value="150">Difficile (150 ⭐)</option>
+                        <option value="20">Facile (+20 ⭐)</option>
+                        <option value="50" selected>Intermédiaire (+50 ⭐)</option>
+                        <option value="150">Priorité Haute (+150 ⭐)</option>
                     </select>
-                    <button class="btn btn-primary" onclick="addTask()" style="width:60px; height: 44px;"><i data-lucide="plus"></i></button>
+                    <button class="btn btn-primary" onclick="addTask()" style="width:60px; flex-shrink: 0;"><i data-lucide="plus"></i></button>
                 </div>
             </div>
             <div id="taskList"></div>
@@ -208,44 +229,41 @@
     let xp = parseInt(localStorage.getItem('xp')) || 0;
     let lvl = parseInt(localStorage.getItem('lvl')) || 1;
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    let completedToday = parseInt(localStorage.getItem('completedToday')) || 0;
-    
-    const ranks = ["Stagiaire", "Apprenti", "Expert", "Maître", "Légende"];
+    const ranks = ["Stagiaire", "Apprenti", "Expert", "Maître", "Légende", "Demi-Dieu"];
+
     const getNextLevelXP = () => lvl * 150;
 
-    // Notifications
+    // Notifications élégantes
     function sendNotify(title, msg) {
         const stack = document.getElementById('notify-stack');
         const toast = document.createElement('div');
         toast.className = 'toast';
-        toast.innerHTML = `<b>${title}</b><br><small>${msg}</small>`;
+        toast.innerHTML = `<strong>${title}</strong><div style="font-size:12px; color: #666; margin-top:4px;">${msg}</div>`;
         stack.appendChild(toast);
-        setTimeout(() => { 
-            toast.style.opacity = '0'; 
-            toast.style.transform = 'translateX(20px)';
-            setTimeout(() => toast.remove(), 500); 
+        
+        setTimeout(() => {
+            toast.style.transform = 'translateX(120%)';
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 500);
         }, 4000);
     }
 
-    // Mise à jour de l'interface
+    // Mise à jour de l'UI
     function updateUI() {
+        const nextXP = getNextLevelXP();
         document.getElementById('starsDisplay').innerText = stars;
         document.getElementById('lvl-badge').innerText = lvl;
-        document.getElementById('rankName').innerText = ranks[Math.min(Math.floor(lvl/3), 4)];
-        
-        const nextXP = getNextLevelXP();
-        document.getElementById('next-lvl-xp').innerText = (nextXP - xp) + " XP";
-        document.getElementById('daily-status').innerText = `${completedToday} / 3 Missions`;
+        document.getElementById('rankName').innerText = ranks[Math.min(lvl-1, 5)];
+        document.getElementById('xp-text').innerText = `${xp} / ${nextXP} XP`;
         
         let progress = (xp / nextXP) * 100;
         document.getElementById('xp-fill').style.width = `${progress}%`;
 
-        // Sauvegarde
+        // Persistance
         localStorage.setItem('stars', stars);
         localStorage.setItem('xp', xp);
         localStorage.setItem('lvl', lvl);
         localStorage.setItem('tasks', JSON.stringify(tasks));
-        localStorage.setItem('completedToday', completedToday);
         
         renderTasks();
         lucide.createIcons();
@@ -254,10 +272,14 @@
     function addTask() {
         const input = document.getElementById('taskName');
         const val = document.getElementById('taskValue');
-        if (!input.value.trim()) return;
-        
+        if (!input.value.trim()) {
+            input.style.borderColor = 'var(--danger)';
+            setTimeout(() => input.style.borderColor = '#eee', 1000);
+            return;
+        }
         tasks.push({ id: Date.now(), name: input.value, reward: parseInt(val.value) });
         input.value = '';
+        sendNotify("Mission ajoutée", "À toi de jouer !");
         updateUI();
     }
 
@@ -267,23 +289,16 @@
         
         stars += task.reward;
         xp += Math.floor(task.reward / 2);
-        completedToday++;
 
-        // Bonus journalier
-        if(completedToday === 3) {
-            stars += 50;
-            sendNotify("Bonus Quotidien ! 🎁", "+50 ⭐ pour votre régularité.");
-        }
-
-        // Passage de niveau
-        while (xp >= getNextLevelXP()) {
+        // Gestion Level Up
+        if (xp >= getNextLevelXP()) {
             xp -= getNextLevelXP();
             lvl++;
-            sendNotify("LEVEL UP ! 🚀", `Félicitations, vous êtes niveau ${lvl}`);
+            sendNotify("🎉 LEVEL UP !", `Bienvenue au niveau ${lvl}`);
         }
 
         tasks.splice(taskIndex, 1);
-        sendNotify("Mission accomplie", `+${task.reward} ⭐ gagnées`);
+        sendNotify("Mission Accomplie", `+${task.reward} ⭐ gagnées`);
         updateUI();
     }
 
@@ -295,8 +310,11 @@
     function renderTasks() {
         const list = document.getElementById('taskList');
         list.innerHTML = tasks.length === 0 ? 
-            '<div style="text-align:center; padding:40px; color:#999;"><i data-lucide="coffee" size="32"></i><p>Toutes les missions sont terminées !</p></div>' : '';
-        
+            `<div style="text-align:center; padding: 40px; color:#aaa;">
+                <i data-lucide="coffee" size="40" style="margin-bottom:10px; opacity:0.3;"></i>
+                <p>Toutes les missions sont remplies !</p>
+            </div>` : '';
+
         tasks.forEach(t => {
             const div = document.createElement('div');
             div.className = 'card';
@@ -307,21 +325,19 @@
                     <span class="badge">⭐ ${t.reward}</span>
                 </div>
                 <div style="display:flex; gap:8px;">
-                    <button class="btn btn-ghost" onclick="deleteTask(${t.id})"><i data-lucide="trash-2" size="16"></i></button>
-                    <button class="btn btn-success" onclick="completeTask(${t.id})"><i data-lucide="check" size="16"></i> OK</button>
+                    <button class="btn btn-ghost" onclick="deleteTask(${t.id})"><i data-lucide="trash-2" size="18"></i></button>
+                    <button class="btn btn-success" onclick="completeTask(${t.id})">Terminer</button>
                 </div>`;
             list.appendChild(div);
         });
-        lucide.createIcons();
     }
 
-    // Gestion du Timer
+    // Gestion Timer
     let activeInterval;
     function startTimer(label, mins) {
         const endTime = Date.now() + (mins * 60 * 1000);
         localStorage.setItem('timerEnd', endTime);
         localStorage.setItem('timerLabel', label);
-        localStorage.setItem('timerTotal', mins * 60 * 1000);
         runTimerLogic();
     }
 
@@ -329,29 +345,22 @@
         const ui = document.getElementById('timer-ui');
         const endTime = localStorage.getItem('timerEnd');
         const label = localStorage.getItem('timerLabel');
-        const total = localStorage.getItem('timerTotal');
-
         if (!endTime) return;
 
         clearInterval(activeInterval);
         ui.style.display = 'flex';
-        
         activeInterval = setInterval(() => {
-            const now = Date.now();
-            const diff = endTime - now;
-            
+            const diff = endTime - Date.now();
             if (diff <= 0) {
                 clearInterval(activeInterval);
                 ui.style.display = 'none';
                 localStorage.removeItem('timerEnd');
-                sendNotify("Temps écoulé ! 🔔", `${label} est terminé.`);
-                new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play();
+                sendNotify("⏳ Temps écoulé !", `${label} est terminé.`);
                 return;
             }
-            
             const m = Math.floor(diff / 60000);
             const s = Math.floor((diff % 60000) / 1000);
-            ui.innerHTML = `<i data-lucide="clock" size="18"></i> <span><b>${label}</b> ${m}:${s<10?'0':''}${s}</span>`;
+            ui.innerHTML = `<i data-lucide="clock" size="18"></i> <span><b>${label.toUpperCase()}</b> — ${m}:${s<10?'0':''}${s}</span>`;
             lucide.createIcons();
         }, 1000);
     }
@@ -360,20 +369,23 @@
         if (stars >= cost) {
             stars -= cost;
             startTimer(label, mins);
+            sendNotify("Achat validé", `Bonne session de ${label} !`);
             updateUI();
         } else {
-            sendNotify("Étoiles insuffisantes", "Continuez vos missions pour débloquer ceci !");
+            sendNotify("Étoiles insuffisantes", "Continue de travailler pour débloquer ça !");
         }
     }
 
     function startFocus() {
-        startTimer("Deep Work", 25);
-        sendNotify("Focus activé", "Concentration maximale pendant 25 minutes.");
+        startTimer("Concentration", 25);
+        sendNotify("Focus", "Mode Deep Work activé. Ne lâche rien !");
     }
 
-    function resetAll() {
-        localStorage.clear();
-        location.reload();
+    function resetData() {
+        if(confirm("Réinitialiser toute ta progression ?")) {
+            localStorage.clear();
+            location.reload();
+        }
     }
 
     // Initialisation
