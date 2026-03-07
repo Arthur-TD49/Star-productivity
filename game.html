@@ -3,394 +3,391 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Star Tasker Pro - Dashboard</title>
+    <title>Star Tasker Pro | Dashboard</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --mac-bg: rgba(255, 255, 255, 0.7);
-            --mac-border: rgba(255, 255, 255, 0.4);
+            --mac-bg: rgba(255, 255, 255, 0.72);
+            --mac-border: rgba(255, 255, 255, 0.5);
             --accent: #007AFF;
             --success: #28cd41;
             --danger: #FF3B30;
-            --surface: rgba(255, 255, 255, 0.3);
+            --warning: #FF9500;
             --text-main: #1d1d1f;
+            --glass: saturate(180%) blur(30px);
         }
 
         body {
-            background: url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
             background-size: cover;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
             margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center;
-            overflow: hidden; color: var(--text-main);
+            color: var(--text-main); overflow: hidden;
         }
 
-        /* Container principal avec effet de flou dynamique */
-        .app-container {
+        /* --- Fenêtre Principale --- */
+        .app-window {
             width: 95%; max-width: 1200px; height: 85vh;
             background: var(--mac-bg);
-            backdrop-filter: blur(40px) saturate(180%);
-            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            backdrop-filter: var(--glass); -webkit-backdrop-filter: var(--glass);
             border-radius: 24px; border: 1px solid var(--mac-border);
             display: flex; flex-direction: column;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.15);
-            animation: appAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 50px 100px rgba(0,0,0,0.25);
+            animation: appSpawn 0.7s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        @keyframes appAppear { from { opacity: 0; transform: scale(0.95) translateY(20px); } }
+        @keyframes appSpawn { from { opacity: 0; transform: scale(0.95) translateY(30px); } }
 
-        /* Barre de titre élégante */
-        .title-bar {
-            height: 65px; display: flex; align-items: center; padding: 0 25px;
-            background: rgba(255,255,255,0.2); border-bottom: 1px solid rgba(0,0,0,0.05);
+        /* --- Header & XP --- */
+        .header {
+            height: 75px; display: flex; align-items: center; padding: 0 25px;
+            background: rgba(255,255,255,0.2); border-bottom: 1px solid rgba(0,0,0,0.08);
         }
 
-        .dots { display: flex; gap: 8px; width: 80px; }
-        .dot { width: 13px; height: 13px; border-radius: 50%; transition: 0.2s; cursor: pointer; }
-        .dot:hover { filter: brightness(0.8); }
-        .red { background: #FF5F56; } .yellow { background: #FFBD2E; } .green { background: #27C93F; }
+        .window-controls { display: flex; gap: 8px; width: 60px; }
+        .control { width: 12px; height: 12px; border-radius: 50%; }
 
-        .xp-container { flex: 1; margin: 0 40px; }
-        .xp-label { font-size: 11px; font-weight: 700; color: #666; margin-bottom: 6px; display: flex; justify-content: space-between; }
-        .xp-bar { height: 10px; background: rgba(0,0,0,0.08); border-radius: 20px; overflow: hidden; }
-        #xp-fill { height: 100%; background: linear-gradient(90deg, #007AFF, #5AC8FA); width: 0%; transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .xp-container { flex: 1; margin: 0 50px; }
+        .xp-info { display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; color: #666; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .xp-track { height: 10px; background: rgba(0,0,0,0.08); border-radius: 10px; overflow: hidden; }
+        #xp-bar { height: 100%; background: linear-gradient(90deg, #007AFF, #5AC8FA); width: 0%; transition: width 0.8s ease; }
 
-        .star-wallet { 
-            background: rgba(255,255,255,0.8); padding: 8px 16px; border-radius: 14px; 
-            font-weight: 800; color: #e67e22; display: flex; align-items: center; gap: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        .wallet { 
+            background: white; padding: 10px 20px; border-radius: 16px; 
+            font-weight: 800; color: #f39c12; display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        .main-layout { display: flex; flex: 1; overflow: hidden; }
+        /* --- Layout --- */
+        .layout { display: flex; flex: 1; overflow: hidden; }
 
-        /* Sidebar & Widgets */
-        .sidebar { width: 240px; padding: 25px; background: rgba(255,255,255,0.15); border-right: 1px solid rgba(0,0,0,0.05); }
-        .widget { 
-            background: var(--surface); padding: 18px; border-radius: 20px; 
-            margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.4); text-align: center;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Sidebar */
+        .sidebar { width: 250px; padding: 25px; border-right: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        
+        .profile { text-align: center; margin-bottom: 30px; }
+        .avatar { 
+            width: 80px; height: 80px; border-radius: 50%; background: white; margin: 0 auto 15px;
+            display: flex; align-items: center; justify-content: center; font-size: 35px;
+            border: 4px solid white; cursor: pointer; transition: 0.3s; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
-        .widget:hover { transform: scale(1.02); background: rgba(255,255,255,0.5); }
-        .widget small { display: block; font-size: 10px; font-weight: 800; color: #888; margin-bottom: 6px; letter-spacing: 0.5px; }
-        .widget span { font-size: 1.1rem; font-weight: 700; color: #333; }
+        .avatar:hover { transform: scale(1.05) rotate(5deg); }
+        #username-input { 
+            font-weight: 800; font-size: 16px; border: none; background: transparent; 
+            text-align: center; width: 100%; outline: none; color: var(--text-main);
+        }
 
-        /* Colonnes Scrollables */
-        .shop-column { width: 320px; padding: 25px; overflow-y: auto; border-right: 1px solid rgba(0,0,0,0.05); }
-        .task-column { flex: 1; padding: 25px; overflow-y: auto; background: rgba(255,255,255,0.1); }
+        /* Colonne Missions */
+        .missions { flex: 1; padding: 30px; overflow-y: auto; background: rgba(255,255,255,0.15); }
 
-        h3 { font-size: 1.2rem; margin-top: 0; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        /* Colonne Boutique */
+        .shop { width: 320px; padding: 30px; overflow-y: auto; border-left: 1px solid rgba(0,0,0,0.05); }
 
-        /* Cards Style Apple */
+        /* --- Composants UI --- */
         .card { 
-            background: rgba(255, 255, 255, 0.7); padding: 20px; border-radius: 18px; margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.5); transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.6); padding: 20px; border-radius: 20px; margin-bottom: 15px;
+            border: 1px solid white; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 25px rgba(0,0,0,0.08); background: #ffffff; }
-
-        .input-group { background: white; padding: 20px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-        input, select { 
-            width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 12px; 
-            border: 1px solid #eee; outline: none; transition: 0.2s; font-size: 14px;
-        }
-        input:focus { border-color: var(--accent); background: #f9f9f9; }
+        .card:hover { transform: translateY(-4px); background: white; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
 
         .btn { 
-            border: none; padding: 12px 18px; border-radius: 12px; cursor: pointer; 
-            font-weight: 700; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
+            border: none; padding: 12px 18px; border-radius: 14px; cursor: pointer; 
+            font-weight: 700; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px;
         }
         .btn-primary { background: var(--accent); color: white; width: 100%; }
-        .btn-primary:hover { background: #0062cc; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3); }
-        .btn-success { background: var(--success); color: white; padding: 8px 15px; }
-        .btn-ghost { background: transparent; color: #999; }
-        .btn-ghost:hover { color: var(--danger); background: #fff1f0; }
+        .btn-primary:hover { filter: brightness(1.1); box-shadow: 0 5px 15px rgba(0, 122, 255, 0.4); }
+        .btn-success { background: var(--success); color: white; width: 45px; height: 45px; border-radius: 50%; padding: 0; }
 
-        /* Toasts style iOS */
-        #notify-stack { position: fixed; top: 30px; right: 30px; z-index: 2000; }
+        input[type="text"], select { 
+            width: 100%; padding: 14px; border-radius: 14px; border: 1px solid rgba(0,0,0,0.05); 
+            margin-bottom: 12px; font-size: 14px; background: white; outline: none; box-sizing: border-box;
+        }
+
+        .badge { font-size: 10px; padding: 5px 10px; border-radius: 8px; font-weight: 800; background: #f0f0f5; }
+
+        /* --- Popups --- */
+        #notify-area { position: fixed; top: 25px; right: 25px; z-index: 10000; }
         .toast {
-            background: rgba(255,255,255,0.8); backdrop-filter: blur(15px);
-            padding: 15px 25px; border-radius: 18px; margin-bottom: 12px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); border: 1px solid white;
-            animation: toastIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255,255,255,0.9); padding: 18px 25px; border-radius: 20px;
+            margin-bottom: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); border: 1px solid white;
+            animation: toastSlide 0.5s ease-out;
         }
-        @keyframes toastIn { from { transform: translateX(120%); opacity: 0; } }
+        @keyframes toastSlide { from { transform: translateX(120%); } }
 
-        /* Floating Timer Animé */
-        .timer-float {
+        .timer-dock {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: rgba(29, 29, 31, 0.9); backdrop-filter: blur(10px); color: white; 
-            padding: 14px 28px; border-radius: 50px; display: flex; align-items: center; gap: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4); z-index: 1000;
-            animation: timerPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: #1d1d1f; color: white; padding: 15px 30px; border-radius: 40px;
+            display: flex; align-items: center; gap: 20px; z-index: 9000; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
-        @keyframes timerPop { from { transform: translateX(-50%) translateY(100px); } }
 
-        .badge { font-size: 11px; padding: 5px 10px; border-radius: 8px; font-weight: 800; background: #FFF9E6; color: #D4AF37; }
-        
-        /* Custom Scrollbar */
+        h3 { font-size: 18px; margin-top: 0; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+
+        /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
     </style>
 </head>
 <body>
 
-<div id="notify-stack"></div>
-<div id="timer-ui" class="timer-float" style="display:none"></div>
+<div id="notify-area"></div>
+<div id="active-timer" class="timer-dock" style="display:none"></div>
 
-<div class="app-container">
-    <div class="title-bar">
-        <div class="dots">
-            <div class="dot red"></div>
-            <div class="dot yellow"></div>
-            <div class="dot green"></div>
+<div class="app-window">
+    <header class="header">
+        <div class="window-controls">
+            <div class="control" style="background:#FF5F56;"></div>
+            <div class="control" style="background:#FFBD2E;"></div>
+            <div class="control" style="background:#27C93F;"></div>
         </div>
+        
         <div class="xp-container">
-            <div class="xp-label">
-                <span>NIVEAU <span id="lvl-badge">1</span></span>
+            <div class="xp-info">
+                <span>Niveau <span id="lvl">1</span></span>
                 <span id="xp-text">0 / 150 XP</span>
             </div>
-            <div class="xp-bar"><div id="xp-fill"></div></div>
+            <div class="xp-track"><div id="xp-bar"></div></div>
         </div>
-        <div class="star-wallet">
-            <i data-lucide="sparkles" size="18"></i>
-            <span id="starsDisplay">0</span>
-        </div>
-    </div>
 
-    <div class="main-layout">
+        <div class="wallet">
+            <i data-lucide="sparkles" fill="#f39c12"></i>
+            <span id="stars">0</span>
+        </div>
+    </header>
+
+    <div class="layout">
         <aside class="sidebar">
-            <div class="widget">
-                <small>RANG ACTUEL</small>
-                <span id="rankName">Stagiaire</span>
+            <div class="profile">
+                <div class="avatar" id="avatar-icon" onclick="cycleAvatar()">🚀</div>
+                <input type="text" id="username-input" value="Explorateur" onchange="updateProfile()">
+                <div id="rank-label" style="font-size: 10px; font-weight: 800; color: var(--accent); margin-top: 8px;">DÉBUTANT</div>
             </div>
-            <div class="widget">
-                <small>OBJECTIF ÉTOILES</small>
-                <span id="star-goal">Matinée productive</span>
+
+            <div style="background: rgba(255,255,255,0.3); padding: 15px; border-radius: 18px; font-size: 12px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span>Succès :</span> <span id="stat-done" style="font-weight:800;">0</span>
+                </div>
             </div>
-            <div style="text-align: center; margin-top: 30px;">
-                <button class="btn btn-ghost" onclick="resetData()" style="font-size: 10px; opacity: 0.5;">RÉINITIALISER</button>
-            </div>
+
+            <button class="btn" onclick="hardReset()" style="margin-top:auto; font-size:10px; color:var(--danger); background:transparent;">
+                <i data-lucide="trash-2" size="12"></i> RÉINITIALISER
+            </button>
         </aside>
 
-        <section class="shop-column">
-            <h3><i data-lucide="shopping-cart" size="20" color="#007AFF"></i> Boutique</h3>
+        <main class="missions">
+            <h3><i data-lucide="target" color="#28cd41"></i> Missions en cours</h3>
             
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
-                    <div>
-                        <div style="font-weight:700;">☕ Café / Snack</div>
-                        <div style="font-size:11px; color:#888;">Pause courte (10m)</div>
-                    </div>
-                </div>
-                <button class="btn btn-primary" onclick="buy(20, 'Pause Snack', 10)">20 ⭐</button>
-            </div>
-
-            <div class="card">
-                <div style="font-weight:700;">🎧 Playlist Favorie</div>
-                <div style="font-size:11px; color:#888; margin-bottom:12px;">Détente musicale (20m)</div>
-                <button class="btn btn-primary" onclick="buy(40, 'Musique', 20)">40 ⭐</button>
-            </div>
-
-            <div class="card">
-                <div style="font-weight:700;">🎮 Session Gaming</div>
-                <div style="font-size:11px; color:#888; margin-bottom:12px;">Récompense Ultime (45m)</div>
-                <button class="btn btn-primary" onclick="buy(150, 'Gaming', 45)">150 ⭐</button>
-            </div>
-
-            <div class="card" style="border: 2px solid var(--accent); background: rgba(0, 122, 255, 0.05);">
-                <div style="font-weight:800; color:var(--accent); display: flex; align-items: center; gap: 5px;">
-                    <i data-lucide="zap" size="14"></i> DEEP WORK
-                </div>
-                <div style="font-size:11px; color:#555; margin-bottom:12px;">Focus sans interruption (25m)</div>
-                <button class="btn btn-primary" style="background:#1d1d1f" onclick="startFocus()">Lancer le Focus</button>
-            </div>
-        </section>
-
-        <main class="task-column">
-            <h3><i data-lucide="target" size="20" color="#28cd41"></i> Missions</h3>
-            <div class="input-group">
-                <input type="text" id="taskName" placeholder="Quelle est la prochaine étape ?">
-                <div style="display:flex; gap:12px;">
-                    <select id="taskValue">
-                        <option value="20">Facile (+20 ⭐)</option>
-                        <option value="50" selected>Intermédiaire (+50 ⭐)</option>
+            <div class="card" style="background: white;">
+                <input type="text" id="task-name" placeholder="Quelle est la prochaine étape ?">
+                <div style="display:flex; gap:10px;">
+                    <select id="task-reward">
+                        <option value="20">Simple (+20 ⭐)</option>
+                        <option value="50" selected>Important (+50 ⭐)</option>
                         <option value="150">Priorité Haute (+150 ⭐)</option>
                     </select>
-                    <button class="btn btn-primary" onclick="addTask()" style="width:60px; flex-shrink: 0;"><i data-lucide="plus"></i></button>
+                    <button class="btn btn-primary" onclick="createTask()" style="width: 60px;">
+                        <i data-lucide="plus"></i>
+                    </button>
                 </div>
             </div>
-            <div id="taskList"></div>
+
+            <div id="task-container"></div>
         </main>
+
+        <aside class="shop">
+            <h3><i data-lucide="shopping-cart" color="#007AFF"></i> Boutique</h3>
+            
+            <div class="card">
+                <div style="font-weight:700;"><i data-lucide="coffee" size="14"></i> Pause Café</div>
+                <div style="font-size:11px; color:#666; margin-bottom:12px;">10 minutes de repos</div>
+                <button class="btn btn-primary" onclick="buyItem(20, 'Pause Café', 10)">20 ⭐</button>
+            </div>
+
+            <div class="card">
+                <div style="font-weight:700;"><i data-lucide="dices" size="14"></i> Jeu de Société</div>
+                <div style="font-size:11px; color:#666; margin-bottom:12px;">Partie de 45 minutes</div>
+                <button class="btn btn-primary" onclick="buyItem(80, 'Jeu de Société', 45)">80 ⭐</button>
+            </div>
+
+            <div class="card">
+                <div style="font-weight:700;"><i data-lucide="film" size="14"></i> Soirée Film</div>
+                <div style="font-size:11px; color:#666; margin-bottom:12px;">Détente longue (2h)</div>
+                <button class="btn btn-primary" onclick="buyItem(200, 'Film', 120)">200 ⭐</button>
+            </div>
+
+            <div class="card" style="background:#1d1d1f; color:white;">
+                <div style="font-weight:700; color:var(--success);">⚡ Mode Focus</div>
+                <div style="font-size:11px; color:#888; margin-bottom:12px;">25m de Deep Work</div>
+                <button class="btn btn-primary" style="background:var(--accent)" onclick="startFocus()">Lancer</button>
+            </div>
+        </aside>
     </div>
 </div>
 
 <script>
-    // État de l'application
-    let stars = parseInt(localStorage.getItem('stars')) || 0;
-    let xp = parseInt(localStorage.getItem('xp')) || 0;
-    let lvl = parseInt(localStorage.getItem('lvl')) || 1;
-    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    const ranks = ["Stagiaire", "Apprenti", "Expert", "Maître", "Légende", "Demi-Dieu"];
+    // --- DATA ---
+    let data = JSON.parse(localStorage.getItem('starTaskerV3')) || {
+        stars: 0,
+        xp: 0,
+        lvl: 1,
+        tasks: [],
+        username: "Explorateur",
+        avatar: "🚀",
+        statsDone: 0
+    };
 
-    const getNextLevelXP = () => lvl * 150;
+    const getXPLimit = () => data.lvl * 150;
+    const ranks = ["STAGIAIRE", "APPRENTI", "EXPERT", "MAÎTRE", "LÉGENDE"];
 
-    // Notifications élégantes
-    function sendNotify(title, msg) {
-        const stack = document.getElementById('notify-stack');
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.innerHTML = `<strong>${title}</strong><div style="font-size:12px; color: #666; margin-top:4px;">${msg}</div>`;
-        stack.appendChild(toast);
-        
-        setTimeout(() => {
-            toast.style.transform = 'translateX(120%)';
-            toast.style.opacity = '0';
-            setTimeout(() => toast.remove(), 500);
-        }, 4000);
+    function save() {
+        localStorage.setItem('starTaskerV3', JSON.stringify(data));
+        render();
     }
 
-    // Mise à jour de l'UI
-    function updateUI() {
-        const nextXP = getNextLevelXP();
-        document.getElementById('starsDisplay').innerText = stars;
-        document.getElementById('lvl-badge').innerText = lvl;
-        document.getElementById('rankName').innerText = ranks[Math.min(lvl-1, 5)];
-        document.getElementById('xp-text').innerText = `${xp} / ${nextXP} XP`;
-        
-        let progress = (xp / nextXP) * 100;
-        document.getElementById('xp-fill').style.width = `${progress}%`;
+    // --- UI ENGINE ---
+    function render() {
+        document.getElementById('stars').innerText = data.stars;
+        document.getElementById('lvl').innerText = data.lvl;
+        document.getElementById('stat-done').innerText = data.statsDone;
+        document.getElementById('username-input').value = data.username;
+        document.getElementById('avatar-icon').innerText = data.avatar;
+        document.getElementById('rank-label').innerText = ranks[Math.min(data.lvl-1, 4)];
 
-        // Persistance
-        localStorage.setItem('stars', stars);
-        localStorage.setItem('xp', xp);
-        localStorage.setItem('lvl', lvl);
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-        
-        renderTasks();
-        lucide.createIcons();
-    }
+        const progress = (data.xp / getXPLimit()) * 100;
+        document.getElementById('xp-bar').style.width = `${progress}%`;
+        document.getElementById('xp-text').innerText = `${data.xp} / ${getXPLimit()} XP`;
 
-    function addTask() {
-        const input = document.getElementById('taskName');
-        const val = document.getElementById('taskValue');
-        if (!input.value.trim()) {
-            input.style.borderColor = 'var(--danger)';
-            setTimeout(() => input.style.borderColor = '#eee', 1000);
-            return;
-        }
-        tasks.push({ id: Date.now(), name: input.value, reward: parseInt(val.value) });
-        input.value = '';
-        sendNotify("Mission ajoutée", "À toi de jouer !");
-        updateUI();
-    }
+        const container = document.getElementById('task-container');
+        container.innerHTML = data.tasks.length === 0 ? 
+            `<p style="text-align:center; color:#888; margin-top:40px; font-size:13px;">Aucune mission. Ajoutez-en une !</p>` : '';
 
-    function completeTask(id) {
-        const taskIndex = tasks.findIndex(t => t.id === id);
-        const task = tasks[taskIndex];
-        
-        stars += task.reward;
-        xp += Math.floor(task.reward / 2);
-
-        // Gestion Level Up
-        if (xp >= getNextLevelXP()) {
-            xp -= getNextLevelXP();
-            lvl++;
-            sendNotify("🎉 LEVEL UP !", `Bienvenue au niveau ${lvl}`);
-        }
-
-        tasks.splice(taskIndex, 1);
-        sendNotify("Mission Accomplie", `+${task.reward} ⭐ gagnées`);
-        updateUI();
-    }
-
-    function deleteTask(id) {
-        tasks = tasks.filter(t => t.id !== id);
-        updateUI();
-    }
-
-    function renderTasks() {
-        const list = document.getElementById('taskList');
-        list.innerHTML = tasks.length === 0 ? 
-            `<div style="text-align:center; padding: 40px; color:#aaa;">
-                <i data-lucide="coffee" size="40" style="margin-bottom:10px; opacity:0.3;"></i>
-                <p>Toutes les missions sont remplies !</p>
-            </div>` : '';
-
-        tasks.forEach(t => {
-            const div = document.createElement('div');
-            div.className = 'card';
-            div.style.display = 'flex'; div.style.justifyContent = 'space-between'; div.style.alignItems = 'center';
-            div.innerHTML = `
+        data.tasks.forEach(t => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.display = 'flex';
+            card.style.justifyContent = 'space-between';
+            card.style.alignItems = 'center';
+            card.innerHTML = `
                 <div>
                     <div style="font-weight:700; margin-bottom:4px;">${t.name}</div>
                     <span class="badge">⭐ ${t.reward}</span>
                 </div>
-                <div style="display:flex; gap:8px;">
-                    <button class="btn btn-ghost" onclick="deleteTask(${t.id})"><i data-lucide="trash-2" size="18"></i></button>
-                    <button class="btn btn-success" onclick="completeTask(${t.id})">Terminer</button>
-                </div>`;
-            list.appendChild(div);
+                <button class="btn btn-success" onclick="finishTask(${t.id})">
+                    <i data-lucide="check"></i>
+                </button>
+            `;
+            container.appendChild(card);
         });
+        lucide.createIcons();
     }
 
-    // Gestion Timer
-    let activeInterval;
-    function startTimer(label, mins) {
-        const endTime = Date.now() + (mins * 60 * 1000);
-        localStorage.setItem('timerEnd', endTime);
-        localStorage.setItem('timerLabel', label);
-        runTimerLogic();
+    // --- ACTIONS ---
+    function createTask() {
+        const input = document.getElementById('task-name');
+        const reward = document.getElementById('task-reward').value;
+        if(!input.value) return;
+
+        data.tasks.push({
+            id: Date.now(),
+            name: input.value,
+            reward: parseInt(reward)
+        });
+        input.value = '';
+        save();
+        pushNotify("Mission lancée", "C'est parti !");
     }
 
-    function runTimerLogic() {
-        const ui = document.getElementById('timer-ui');
-        const endTime = localStorage.getItem('timerEnd');
-        const label = localStorage.getItem('timerLabel');
-        if (!endTime) return;
+    function finishTask(id) {
+        const idx = data.tasks.findIndex(t => t.id === id);
+        const t = data.tasks[idx];
+        
+        data.stars += t.reward;
+        data.xp += Math.floor(t.reward / 2);
+        data.statsDone++;
 
-        clearInterval(activeInterval);
-        ui.style.display = 'flex';
-        activeInterval = setInterval(() => {
-            const diff = endTime - Date.now();
-            if (diff <= 0) {
-                clearInterval(activeInterval);
-                ui.style.display = 'none';
-                localStorage.removeItem('timerEnd');
-                sendNotify("⏳ Temps écoulé !", `${label} est terminé.`);
-                return;
-            }
-            const m = Math.floor(diff / 60000);
-            const s = Math.floor((diff % 60000) / 1000);
-            ui.innerHTML = `<i data-lucide="clock" size="18"></i> <span><b>${label.toUpperCase()}</b> — ${m}:${s<10?'0':''}${s}</span>`;
-            lucide.createIcons();
-        }, 1000);
+        if(data.xp >= getXPLimit()) {
+            data.xp -= getXPLimit();
+            data.lvl++;
+            pushNotify("🎉 NIVEAU SUPÉRIEUR !", "Vous êtes maintenant niveau " + data.lvl);
+        }
+
+        data.tasks.splice(idx, 1);
+        save();
+        pushNotify("Succès", `+${t.reward} étoiles gagnées`);
     }
 
-    function buy(cost, label, mins) {
-        if (stars >= cost) {
-            stars -= cost;
-            startTimer(label, mins);
-            sendNotify("Achat validé", `Bonne session de ${label} !`);
-            updateUI();
+    function buyItem(cost, label, mins) {
+        if(data.stars >= cost) {
+            data.stars -= cost;
+            launchTimer(label, mins);
+            save();
+            pushNotify("Boutique", `Session de ${label} activée.`);
         } else {
-            sendNotify("Étoiles insuffisantes", "Continue de travailler pour débloquer ça !");
+            pushNotify("Manque d'étoiles", "Travaille encore un peu !");
         }
     }
 
-    function startFocus() {
-        startTimer("Concentration", 25);
-        sendNotify("Focus", "Mode Deep Work activé. Ne lâche rien !");
+    // --- LOGIQUE TIMER ---
+    let timerClock;
+    function launchTimer(label, mins) {
+        let seconds = mins * 60;
+        const ui = document.getElementById('active-timer');
+        ui.style.display = 'flex';
+        
+        clearInterval(timerClock);
+        timerClock = setInterval(() => {
+            seconds--;
+            let h = Math.floor(seconds / 3600);
+            let m = Math.floor((seconds % 3600) / 60);
+            let s = seconds % 60;
+            let display = h > 0 ? `${h}h ${m}m` : `${m}:${s<10?'0':''}${s}`;
+            
+            ui.innerHTML = `<i data-lucide="clock" size="18"></i> <span><b>${label.toUpperCase()}</b> — ${display}</span>`;
+            if(seconds <= 0) {
+                clearInterval(timerClock);
+                ui.style.display = 'none';
+                pushNotify("Terminé !", `La session ${label} est finie.`);
+            }
+        }, 1000);
+        lucide.createIcons();
     }
 
-    function resetData() {
-        if(confirm("Réinitialiser toute ta progression ?")) {
+    function startFocus() {
+        launchTimer("Deep Work", 25);
+        pushNotify("Focus", "Interdiction d'être distrait !");
+    }
+
+    // --- PROFIL & UTILS ---
+    function updateProfile() {
+        data.username = document.getElementById('username-input').value;
+        save();
+    }
+
+    function cycleAvatar() {
+        const list = ["🚀", "🐱‍💻", "🦊", "🔥", "🎨", "⭐", "🏆"];
+        let curr = list.indexOf(data.avatar);
+        data.avatar = list[(curr + 1) % list.length];
+        save();
+    }
+
+    function pushNotify(title, msg) {
+        const area = document.getElementById('notify-area');
+        const t = document.createElement('div');
+        t.className = 'toast';
+        t.innerHTML = `<strong>${title}</strong><div style="font-size:12px; color:#666; margin-top:4px;">${msg}</div>`;
+        area.appendChild(t);
+        setTimeout(() => {
+            t.style.opacity = '0';
+            setTimeout(() => t.remove(), 500);
+        }, 3000);
+    }
+
+    function hardReset() {
+        if(confirm("Tout supprimer définitivement ?")) {
             localStorage.clear();
             location.reload();
         }
     }
 
-    // Initialisation
-    updateUI();
-    runTimerLogic();
+    render();
 </script>
 </body>
 </html>
