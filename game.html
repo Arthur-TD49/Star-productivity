@@ -25,6 +25,7 @@
             color: var(--text-main); overflow: hidden;
         }
 
+        /* --- Fenêtre Principale --- */
         .app-window {
             width: 95%; max-width: 1200px; height: 85vh;
             background: var(--mac-bg);
@@ -37,6 +38,7 @@
 
         @keyframes appSpawn { from { opacity: 0; transform: scale(0.95) translateY(30px); } }
 
+        /* --- Header & XP --- */
         .header {
             height: 75px; display: flex; align-items: center; padding: 0 25px;
             background: rgba(255,255,255,0.2); border-bottom: 1px solid rgba(0,0,0,0.08);
@@ -56,24 +58,14 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
+        /* --- Layout --- */
         .layout { display: flex; flex: 1; overflow: hidden; }
-        .sidebar { width: 250px; padding: 25px; border-right: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; }
-        .profile { text-align: center; margin-bottom: 30px; }
-        .avatar { 
-            width: 80px; height: 80px; border-radius: 50%; background: white; margin: 0 auto 15px;
-            display: flex; align-items: center; justify-content: center; font-size: 35px;
-            border: 4px solid white; cursor: pointer; transition: 0.3s; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-        .avatar:hover { transform: scale(1.05) rotate(5deg); }
-        #username-input { 
-            font-weight: 800; font-size: 16px; border: none; background: transparent; 
-            text-align: center; width: 100%; outline: none; color: var(--text-main);
-        }
 
+        .sidebar { width: 250px; padding: 25px; border-right: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; }
         .missions { flex: 1; padding: 30px; overflow-y: auto; background: rgba(255,255,255,0.15); }
         .shop { width: 320px; padding: 30px; overflow-y: auto; border-left: 1px solid rgba(0,0,0,0.05); }
 
-        /* --- TACHES --- */
+        /* --- Composants UI --- */
         .card { 
             background: rgba(255, 255, 255, 0.6); padding: 18px; border-radius: 20px; margin-bottom: 15px;
             border: 1px solid white; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -97,7 +89,7 @@
 
         .badge { font-size: 10px; padding: 5px 10px; border-radius: 8px; font-weight: 800; background: #f0f0f5; }
 
-        /* --- Popups --- */
+        /* --- Popups & Timer --- */
         #notify-area { position: fixed; top: 25px; right: 25px; z-index: 10000; }
         .toast {
             background: rgba(255,255,255,0.9); padding: 18px 25px; border-radius: 20px;
@@ -113,6 +105,13 @@
         }
 
         h3 { font-size: 18px; margin-top: 0; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+
+        .profile { text-align: center; margin-bottom: 30px; }
+        .avatar { 
+            width: 80px; height: 80px; border-radius: 50%; background: white; margin: 0 auto 15px;
+            display: flex; align-items: center; justify-content: center; font-size: 35px;
+            border: 4px solid white; cursor: pointer; transition: 0.3s; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
@@ -183,26 +182,27 @@
 
         <aside class="shop">
             <h3><i data-lucide="shopping-cart" color="#007AFF"></i> Boutique</h3>
-            <div class="card">
-                <div style="font-weight:700;"><i data-lucide="coffee" size="14"></i> Présentation</div>
-                <div style="font-size:11px; color:#666; margin-bottom:12px;">10 minutes de pause</div>
-                <button class="btn btn-primary" onclick="buyItem(150, 'Pause', 10)">150 ⭐</button>
-            </div>
             
             <div class="card">
-                <div style="font-weight:700;"><i data-lucide="dices" size="14"></i> Jeu de Société</div>
+                <div style="font-weight:700;"><i data-lucide="coffee" size="14"></i> Pause Détente</div>
+                <div style="font-size:11px; color:#666; margin-bottom:12px;">10 minutes de repos</div>
+                <button class="btn btn-primary" onclick="buyItem(150, 'Pause', 10)">150 ⭐</button>
+            </div>
+
+            <div class="card">
+                <div style="font-weight:700;"><i data-lucide="layout-grid" size="14"></i> Jeu de Société</div>
                 <div style="font-size:11px; color:#666; margin-bottom:12px;">Partie de 10 minutes</div>
                 <button class="btn btn-primary" onclick="buyItem(100, 'Jeu de Société', 10)">100 ⭐</button>
             </div>
 
             <div class="card">
-                <div style="font-weight:700;"><i data-lucide="world" size="14"></i> Jeu en ligne educatif</div>
-                <div style="font-size:11px; color:#666; margin-bottom:12px;">Jeu de 5 minutes</div>
-                <button class="btn btn-primary" onclick="buyItem(50, 'Film', 5)">50 ⭐</button>
+                <div style="font-weight:700;"><i data-lucide="monitor-play" size="14"></i> Jeu Éducatif</div>
+                <div style="font-size:11px; color:#666; margin-bottom:12px;">Session de 5 minutes</div>
+                <button class="btn btn-primary" onclick="buyItem(50, 'Jeu en ligne', 5)">50 ⭐</button>
             </div>
 
             <div class="card" style="background:#1d1d1f; color:white;">
-                <div style="font-weight:700; color:var(--success);">⚡ Mode Focus</div>
+                <div style="font-weight:700; color:var(--success);"><i data-lucide="zap" size="14"></i> Mode Focus</div>
                 <div style="font-size:11px; color:#888; margin-bottom:12px;">25m de Deep Work</div>
                 <button class="btn btn-primary" style="background:var(--accent)" onclick="startFocus()">Lancer</button>
             </div>
@@ -211,6 +211,7 @@
 </div>
 
 <script>
+    // --- DATA ---
     let data = JSON.parse(localStorage.getItem('starTaskerV3')) || {
         stars: 0, xp: 0, lvl: 1, tasks: [], username: "Explorateur", avatar: "🚀", statsDone: 0
     };
@@ -223,6 +224,7 @@
         render();
     }
 
+    // --- UI ENGINE ---
     function render() {
         document.getElementById('stars').innerText = data.stars;
         document.getElementById('lvl').innerText = data.lvl;
@@ -251,13 +253,13 @@
                     <span class="badge">⭐ ${t.reward}</span>
                 </div>
                 <div style="display:flex; gap:8px;">
-                    <button class="btn btn-icon btn-edit-light" onclick="editTask(${t.id})">
+                    <button class="btn btn-icon btn-edit-light" onclick="editTask(${t.id})" title="Modifier">
                         <i data-lucide="edit-2" size="16"></i>
                     </button>
-                    <button class="btn btn-icon btn-danger-light" onclick="deleteTask(${t.id})">
+                    <button class="btn btn-icon btn-danger-light" onclick="deleteTask(${t.id})" title="Supprimer">
                         <i data-lucide="trash" size="16"></i>
                     </button>
-                    <button class="btn btn-icon btn-success" onclick="finishTask(${t.id})">
+                    <button class="btn btn-icon btn-success" onclick="finishTask(${t.id})" title="Terminer">
                         <i data-lucide="check" size="20"></i>
                     </button>
                 </div>
@@ -267,47 +269,7 @@
         lucide.createIcons();
     }
 
-    // --- NOUVELLES FONCTIONS ---
-
-    function deleteTask(id) {
-        data.tasks = data.tasks.filter(t => t.id !== id);
-        save();
-        pushNotify("Supprimé", "Mission abandonnée.");
-    }
-
-    function editTask(id) {
-        const task = data.tasks.find(t => t.id === id);
-        const div = document.getElementById(`task-text-${id}`);
-        
-        // Transforme le texte en input
-        div.innerHTML = `<input type="text" id="edit-input-${id}" value="${task.name}" 
-            style="margin:0; padding:5px; font-size:14px; border:1px solid var(--accent);">`;
-        
-        const input = document.getElementById(`edit-input-${id}`);
-        input.focus();
-
-        // Sauvegarde quand on appuie sur Entrée ou qu'on quitte le champ
-        input.onblur = () => saveEdit(id);
-        input.onkeydown = (e) => { if(e.key === 'Enter') saveEdit(id); };
-    }
-
-    function saveEdit(id) {
-        const input = document.getElementById(`edit-input-${id}`);
-        if(!input) return;
-        
-        const newTaskName = input.value.trim();
-        if(newTaskName) {
-            const idx = data.tasks.findIndex(t => t.id === id);
-            data.tasks[idx].name = newTaskName;
-            save();
-            pushNotify("Modifié", "Mission mise à jour !");
-        } else {
-            render(); // Annule si vide
-        }
-    }
-
-    // --- FONCTIONS EXISTANTES ---
-
+    // --- ACTIONS TACHES ---
     function createTask() {
         const input = document.getElementById('task-name');
         const reward = document.getElementById('task-reward').value;
@@ -323,33 +285,61 @@
         pushNotify("Mission lancée", "C'est parti !");
     }
 
+    function deleteTask(id) {
+        data.tasks = data.tasks.filter(t => t.id !== id);
+        save();
+        pushNotify("Supprimé", "Mission annulée.");
+    }
+
+    function editTask(id) {
+        const task = data.tasks.find(t => t.id === id);
+        const div = document.getElementById(`task-text-${id}`);
+        div.innerHTML = `<input type="text" id="edit-input-${id}" value="${task.name}" 
+            style="margin:0; padding:5px; font-size:14px; border:1px solid var(--accent); width:90%;">`;
+        
+        const input = document.getElementById(`edit-input-${id}`);
+        input.focus();
+        input.onblur = () => saveEdit(id);
+        input.onkeydown = (e) => { if(e.key === 'Enter') saveEdit(id); };
+    }
+
+    function saveEdit(id) {
+        const input = document.getElementById(`edit-input-${id}`);
+        if(!input) return;
+        const val = input.value.trim();
+        if(val) {
+            const idx = data.tasks.findIndex(t => t.id === id);
+            data.tasks[idx].name = val;
+            save();
+            pushNotify("Mis à jour", "Mission modifiée !");
+        } else { render(); }
+    }
+
     function finishTask(id) {
         const idx = data.tasks.findIndex(t => t.id === id);
         const t = data.tasks[idx];
-        
         data.stars += t.reward;
         data.xp += Math.floor(t.reward / 2);
         data.statsDone++;
-
         if(data.xp >= getXPLimit()) {
             data.xp -= getXPLimit();
             data.lvl++;
-            pushNotify("🎉 NIVEAU SUPÉRIEUR !", "Vous êtes maintenant niveau " + data.lvl);
+            pushNotify("🎉 NIVEAU SUPÉRIEUR !", "Niveau " + data.lvl);
         }
-
         data.tasks.splice(idx, 1);
         save();
-        pushNotify("Succès", `+${t.reward} étoiles gagnées`);
+        pushNotify("Succès", `+${t.reward} ⭐ gagnées`);
     }
 
+    // --- BOUTIQUE & TIMER ---
     function buyItem(cost, label, mins) {
         if(data.stars >= cost) {
             data.stars -= cost;
             launchTimer(label, mins);
             save();
-            pushNotify("Boutique", `Session de ${label} activée.`);
+            pushNotify("Boutique", `Session ${label} démarrée.`);
         } else {
-            pushNotify("Manque d'étoiles", "Travaille encore un peu !");
+            pushNotify("Manque d'étoiles", "Continue tes missions !");
         }
     }
 
@@ -358,7 +348,6 @@
         let seconds = mins * 60;
         const ui = document.getElementById('active-timer');
         ui.style.display = 'flex';
-        
         clearInterval(timerClock);
         timerClock = setInterval(() => {
             seconds--;
@@ -368,17 +357,18 @@
             if(seconds <= 0) {
                 clearInterval(timerClock);
                 ui.style.display = 'none';
-                pushNotify("Terminé !", `La session ${label} est finie.`);
+                pushNotify("Terminé !", "Temps écoulé.");
             }
         }, 1000);
         lucide.createIcons();
     }
 
     function startFocus() {
-        launchTimer("Deep Work", 25);
-        pushNotify("Focus", "Interdiction d'être distrait !");
+        launchTimer("Focus", 25);
+        pushNotify("Focus", "Restez concentré !");
     }
 
+    // --- PROFIL ---
     function updateProfile() {
         data.username = document.getElementById('username-input').value;
         save();
